@@ -2,11 +2,11 @@
 Treino de um YOLOv8 (transfer learning) para detectar buracos no asfalto.
 
 Uso:
-    python scripts/train.py
+    python scripts/train/train.py
 
 Antes de rodar:
-    1. Dataset deve estar em dataset_final/ (criado pelo convert_voc_to_yolo.py)
-    2. Confira data.yaml (nc e names).
+    1. Dataset deve estar em data/processed/dataset_final/ (criado pelo scripts/data/convert_voc_to_yolo.py)
+    2. Confira config/data.yaml (nc e names).
     3. pip install -r requirements.txt
 """
 
@@ -14,13 +14,9 @@ from pathlib import Path
 from ultralytics import YOLO
 
 # --- Config ---------------------------------------------------------------
-ROOT = Path(__file__).resolve().parent.parent  # raiz do projeto
-DATA_YAML = ROOT / "data.yaml"
-
-# Modelo pré-treinado base. "n" (nano) é o mais leve/rápido -- ótimo para
-# prototipar e para rodar depois em CPU/edge. Se tiver GPU decente,
-# troque para "yolov8s.pt" (small).
-BASE_MODEL = "yolov8n.pt"
+ROOT = Path(__file__).resolve().parent.parent.parent  # raiz do projeto (C:\YOLO)
+DATA_YAML = ROOT / "config" / "data.yaml"
+BASE_MODEL = ROOT / "models" / "base" / "yolov8n.pt"
 
 EPOCHS = 100
 IMG_SIZE = 640
@@ -33,7 +29,7 @@ def main():
     # Carrega os pesos pré-treinados no COCO. É aqui que entra o transfer
     # learning: a rede já sabe extrair bordas/texturas/formas; vamos só
     # reajustar (fine-tune) tudo para reconhecer a classe "pothole".
-    model = YOLO(BASE_MODEL)
+    model = YOLO(str(BASE_MODEL))
 
     model.train(
         data=str(DATA_YAML),
@@ -65,7 +61,7 @@ def main():
 
     best_path = ROOT / "runs" / RUN_NAME / "weights" / "best.pt"
     print(f"\nMelhor checkpoint salvo em: {best_path}")
-    print("Use esse arquivo em scripts/predict.py")
+    print("Use esse arquivo em scripts/inference/predict.py")
 
 
 if __name__ == "__main__":

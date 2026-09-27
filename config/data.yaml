@@ -3,13 +3,13 @@
 # train/val: pastas com as IMAGENS (os .txt de label ficam em labels/ no mesmo nível)
 #
 # Estrutura esperada:
-# dataset/
+# data/processed/dataset_final/
 #   images/train/*.jpg
 #   images/val/*.jpg
 #   labels/train/*.txt   <- um .txt por imagem, mesmo nome, formato YOLO
 #   labels/val/*.txt
 
-path: C:\YOLO\dataset_final
+path: C:\YOLO\data\processed\dataset_final
 train: images/train
 val: images/val
 

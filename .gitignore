@@ -1,5 +1,6 @@
 # Dados
-dataset_final/
+data/processed/
+data/external/
 *.zip
 *.tar.gz
 
@@ -8,9 +9,15 @@ runs/
 __pycache__/
 *.pyc
 
-# Modelos grandes (opcional - se quiser versionar, use Git LFS)
-models/*.pt
+# Modelos grandes (use Git LFS se quiser versionar)
+models/trained/*.pt
 
 # Ambiente
 venv/
 .env
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo

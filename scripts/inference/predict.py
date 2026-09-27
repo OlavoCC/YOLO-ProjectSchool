@@ -4,26 +4,26 @@ as detecções -- útil para simular o fluxo real: cidadão tira a foto,
 o backend manda pro modelo, modelo devolve se tem buraco + onde.
 
 Uso:
-    python scripts/predict.py caminho/da/foto.jpg
-    python scripts/predict.py caminho/da/pasta/
-    python scripts/predict.py caminho/da/foto.jpg --model runs/buraco_v1-5/weights/best.pt
+    python scripts/inference/predict.py caminho/da/foto.jpg
+    python scripts/inference/predict.py caminho/da/pasta/
+    python scripts/inference/predict.py caminho/da/foto.jpg --model models/trained/pothole_yolov8n.pt
 """
 
 import sys
 from pathlib import Path
 from ultralytics import YOLO
 
-ROOT = Path(__file__).resolve().parent.parent
-DEFAULT_MODEL = ROOT / "runs" / "buraco_v1-5" / "weights" / "best.pt"
+ROOT = Path(__file__).resolve().parent.parent.parent  # raiz do projeto (C:\YOLO)
+DEFAULT_MODEL = ROOT / "models" / "trained" / "pothole_yolov8n.pt"
 
-CONF_THRESHOLD = 0.5 # confiança mínima pra considerar detecção válida
+CONF_THRESHOLD = 0.55  # confiança mínima pra considerar detecção válida
                         # (ajuste depois de ver os resultados: subir reduz
                         # falsos positivos, descer reduz falsos negativos)
 
 
 def main():
     if len(sys.argv) < 2:
-        print("Uso: python scripts/predict.py <imagem_ou_pasta> [--model caminho/modelo.pt]")
+        print("Uso: python scripts/inference/predict.py <imagem_ou_pasta> [--model caminho/modelo.pt]")
         sys.exit(1)
 
     source = sys.argv[1]
@@ -36,7 +36,7 @@ def main():
             model_path = ROOT / sys.argv[idx + 1]
 
     if not model_path.exists():
-        print(f"Modelo não encontrado em {model_path}. Rode scripts/train.py primeiro.")
+        print(f"Modelo não encontrado em {model_path}. Rode scripts/train/train.py primeiro.")
         sys.exit(1)
 
     model = YOLO(str(model_path))

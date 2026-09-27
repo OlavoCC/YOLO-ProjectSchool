@@ -12,14 +12,14 @@ Este script:
   4. Gera uma estrutura YOLO limpa, numa pasta NOVA (pra não misturar com
      a bagunça anterior):
 
-     <root>/dataset_final/images/train/*.png
-     <root>/dataset_final/images/val/*.png
-     <root>/dataset_final/labels/train/*.txt
-     <root>/dataset_final/labels/val/*.txt
+     <root>/data/processed/dataset_final/images/train/*.png
+     <root>/data/processed/dataset_final/images/val/*.png
+     <root>/data/processed/dataset_final/labels/train/*.txt
+     <root>/data/processed/dataset_final/labels/val/*.txt
 
 Uso:
-    python scripts/convert_voc_to_yolo.py <pasta_raiz_do_dataset>
-    Ex.: python scripts/convert_voc_to_yolo.py "C:\\Users\\temek\\OneDrive\\Desktop\\YOLO"
+    python scripts/data/convert_voc_to_yolo.py <pasta_raiz_do_dataset>
+    Ex.: python scripts/data/convert_voc_to_yolo.py "C:\\Users\\temek\\OneDrive\\Desktop\\YOLO"
 """
 
 import sys
@@ -75,7 +75,7 @@ def find_image(stem: str, images_dir: Path) -> Path | None:
 
 def main():
     if len(sys.argv) < 2:
-        print('Uso: python scripts/convert_voc_to_yolo.py "<pasta_raiz_do_dataset>"')
+        print('Uso: python scripts/data/convert_voc_to_yolo.py "<pasta_raiz_do_dataset>"')
         sys.exit(1)
 
     root_dir = Path(sys.argv[1])
@@ -89,7 +89,8 @@ def main():
         print(f"Pasta de xml não encontrada: {xml_source}")
         sys.exit(1)
 
-    out_root = root_dir / "dataset_final"
+    # Output para data/processed/dataset_final
+    out_root = Path(__file__).resolve().parent.parent.parent / "data" / "processed" / "dataset_final"
     out_images_train = out_root / "images" / "train"
     out_images_val = out_root / "images" / "val"
     out_labels_train = out_root / "labels" / "train"
@@ -136,7 +137,7 @@ def main():
             converted += 1
 
     print(f"\nConcluído: {converted} imagens+labels organizados em {out_root}")
-    print("Aponte o data.yaml pra essa pasta nova (veja instruções abaixo da mensagem).")
+    print("O config/data.yaml já aponta para essa pasta.")
 
 
 if __name__ == "__main__":

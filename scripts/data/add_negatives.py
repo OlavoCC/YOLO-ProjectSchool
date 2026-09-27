@@ -1,13 +1,18 @@
 """
 Adiciona imagens NEGATIVAS (asfalto liso, faixas, etc) ao dataset_final/
 Labels vazios = "esta imagem nao contem buracos"
+
+Dataset fonte: <root>/data/external/Dataset (ou caminho configurável)
+Destino: <root>/data/processed/dataset_final/
 """
 
 import shutil
 from pathlib import Path
 
-SRC = Path("C:/Users/temek/OneDrive/Documents/Dataset")
-DST = Path("C:/Users/temek/OneDrive/Desktop/YOLO/dataset_final")
+# Caminhos configuráveis
+SRC = Path(__file__).resolve().parent.parent.parent / "data" / "external" / "Dataset"
+DST = Path(__file__).resolve().parent.parent.parent / "data" / "processed" / "dataset_final"
+
 
 def copy_negatives(split_name):
     src_img = SRC / split_name / "Normal"
@@ -41,10 +46,11 @@ def copy_negatives(split_name):
     print(f"  {split_name}/Normal: {count} negativos adicionados")
     return count
 
+
 if __name__ == "__main__":
     total = 0
     for split in ["train", "val"]:
         total += copy_negatives(split)
 
-    print(f"\nTotal: {total} negativos adicionados ao dataset_final/")
-    print("Agora rode: python scripts/train.py")
+    print(f"\nTotal: {total} negativos adicionados ao data/processed/dataset_final/")
+    print("Agora rode: python scripts/train/train.py")
