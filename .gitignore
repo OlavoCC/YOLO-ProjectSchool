@@ -1,0 +1,16 @@
+# Dados
+dataset_final/
+*.zip
+*.tar.gz
+
+# Treino
+runs/
+__pycache__/
+*.pyc
+
+# Modelos grandes (opcional - se quiser versionar, use Git LFS)
+models/*.pt
+
+# Ambiente
+venv/
+.env

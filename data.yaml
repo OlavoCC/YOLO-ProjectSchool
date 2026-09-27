@@ -1,0 +1,18 @@
+# Config do dataset no formato Ultralytics.
+# path: raiz do dataset (ajuste se mover a pasta)
+# train/val: pastas com as IMAGENS (os .txt de label ficam em labels/ no mesmo nível)
+#
+# Estrutura esperada:
+# dataset/
+#   images/train/*.jpg
+#   images/val/*.jpg
+#   labels/train/*.txt   <- um .txt por imagem, mesmo nome, formato YOLO
+#   labels/val/*.txt
+
+path: C:\YOLO\dataset_final
+train: images/train
+val: images/val
+
+# Número de classes e nomes (índice 0 = pothole)
+nc: 1
+names: ["pothole"]
